@@ -1,5 +1,6 @@
 pipeline {
     agent { label 'probe-builder-test' }
+    env.FOO = "0.22.1"
     stages {
         stage ('preparation') {
             steps {
@@ -24,6 +25,7 @@ pipeline {
         stage ('compilation') {
             steps {
                 parallel (
+                    "info" : { sh 'echo $FOO; printenv' },
                     "info" : { sh 'pwd -P && df -h' },
                     "test_parallel" 	: { sh 'echo ${BRANCH_NAME}...; sleep 60 && echo test_parallel' },
                     "fedora-atomic" 	: { sh 'mkdir -p probe/fedora_atomic && cd probe/fedora_atomic && docker run -i --rm --name fedora-atomic-build -v ${PWD}:/build/probe fedora-builder sysdig-probe jenkins-pipeline-test stable Fedora-Atomic && cp -u output/* ../output/ && echo fedora-atomic finished'},
