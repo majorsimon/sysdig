@@ -1,6 +1,10 @@
 pipeline {
     agent { label 'probe-builder-test' }
-    env.FOO = "0.22.1"
+    environment {
+        FOO = "0.22.1"
+        BAZ = "bang"
+    }
+    
     stages {
         stage ('preparation') {
             steps {
