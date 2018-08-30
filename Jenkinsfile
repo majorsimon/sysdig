@@ -34,6 +34,7 @@ pipeline {
                 sh 'echo "git repo branch: ${BRANCH_NAME}" && pwd -P && df -h'
                 sh 'mkdir -p probe/ubuntu        && cd probe/ubuntu        && bash -x ../../sysdig/scripts/build-probe-binaries ${PROBE_TYPE} ${TARGET_TAG} stable Ubuntu && cp -u output/*${TARGET_TAG}* ../output/ && echo ubuntu finished'
             }
+            }
         }
     
         stage ('s3 publishing') {
