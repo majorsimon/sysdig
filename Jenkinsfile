@@ -30,14 +30,13 @@ pipeline {
 
         stage ('compilation') {
             steps {
-                parallel {
-               
+                parallel (
                     'info':   { sh 'echo "git repo branch: ${BRANCH_NAME}" && pwd -P && df -h' },
                     'ubuntu': { 
                         sshagent(['4399087a-3e99-41e5-9dbe-a70a554672c8']) {
                             sh 'mkdir -p probe/ubuntu        && cd probe/ubuntu        && bash -x ../../sysdig/scripts/build-probe-binaries ${PROBE_TYPE} ${TARGET_TAG} stable Ubuntu && cp -u output/*${TARGET_TAG}* ../output/ && echo ubuntu finished' }
                     }
-                }
+                )
             }
         }
     
