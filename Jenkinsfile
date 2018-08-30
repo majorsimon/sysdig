@@ -37,9 +37,9 @@ pipeline {
                             sh 'mkdir -p probe/ubuntu        && cd probe/ubuntu        && bash -x ../../sysdig/scripts/build-probe-binaries ${PROBE_TYPE} ${TARGET_TAG} stable Ubuntu && cp -u output/*${TARGET_TAG}* ../output/ && echo ubuntu finished' 
                         }
                     },
-                     "rhel" : { 
+                     "fedora-atomic" : { 
                         sshagent(['4399087a-3e99-41e5-9dbe-a70a554672c8']) {
-                             sh 'mkdir -p probe/rhel          && cd probe/rhel          && bash -x ../../sysdig/scripts/build-probe-binaries ${PROBE_TYPE} ${TARGET_TAG} stable RHEL && cp -u output/*${TARGET_TAG}* ../output/ && echo rhel finished' 
+                            sh 'mkdir -p probe/fedora_atomic && cd probe/fedora_atomic && docker run -i --rm --name fedora-atomic-build -v ${PWD}:/build/probe fedora-builder ${PROBE_TYPE} ${TARGET_TAG} stable Fedora-Atomic && cp -u output/*${TARGET_TAG}* ../output/ && echo fedora-atomic finished'
                         }
                     }
                 )
